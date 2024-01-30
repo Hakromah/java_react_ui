@@ -37,7 +37,7 @@ const StudentsView = () => {
 					</tr>
 				</thead>
 
-				<tbody className="text-center">
+				<tbody className="text-start">
 					{students.map((student, index) => (
 						<tr key={student.id}>
 							<th scope="row" key={index}>
