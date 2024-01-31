@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-export const AddStudents = () => {
+const EditStudent = () => {
+
+
 	let navigate = useNavigate();
+	const { id } = useParams();
+
 	const [student, setStudent] = useState({
 		firstName: "",
 		lastName: "",
@@ -14,15 +18,33 @@ export const AddStudents = () => {
 	// let destructure the reference varibles and pass them to student state
 	const { firstName, lastName, email, department } = student;
 
+	useEffect(() => {
+		loadStudents();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	//load students from database
+	const loadStudents = async () => {
+		const result = await axios.get(
+			`http://localhost:1002/students/student/${id}`,
+			{
+				validateStatus: () => {
+					return true;
+				},
+			}
+		);
+
+		setStudent(result.data);
+	};
+
 	const handleInputChange = (e) => {
-		// we spread the student reference veriable and listen to name field in input field and target the value of it.
 		setStudent({ ...student, [e.target.name]: e.target.value });
 	};
 
-	//let's save the data to DATABASE by appending student to our url
-	const saveStudent = async (e) => {
+	//Update data
+	const updateStudent = async (e) => {
 		e.preventDefault();
-		await axios.post("http://localhost:1002/students", student, {
+		await axios.put(`http://localhost:1002/students/update/${id}`, student, {
 			validateStatus: () => {
 				return true;
 			},
@@ -38,7 +60,8 @@ export const AddStudents = () => {
 
 	return (
 		<div className="col-sm-8 py-2 px-5">
-			<form onSubmit={(e) => saveStudent(e)}>
+			<h2>Edit Student</h2>
+			<form onSubmit={(e) => updateStudent(e)}>
 				<div className="input-group mb-5">
 					<label className="input-group-text" htmlFor="firstName">
 						First Name
@@ -101,7 +124,7 @@ export const AddStudents = () => {
 							type="submit"
 							className="btn btn-outline-success btn-lg"
 						>
-							Save
+							Update
 						</button>
 					</div>
 					<div className="col-sm-2">
@@ -118,3 +141,5 @@ export const AddStudents = () => {
 		</div>
 	);
 };
+
+export default EditStudent;
