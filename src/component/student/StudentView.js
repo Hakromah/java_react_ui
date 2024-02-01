@@ -52,10 +52,10 @@ const StudentsView = () => {
 				<tbody className="text-start">
 					{students
 						.filter((st) => st.firstName.toLowerCase().includes(search))
-						.map((student, index) => (
+						.map((student) => (
 							<tr key={student.id}>
-								<th scope="row" key={index}>
-									{index + 1}
+								<th scope="row" key={student.id}>
+									{student.id}
 								</th>
 								<td>{student.firstName}</td>
 								<td>{student.lastName}</td>

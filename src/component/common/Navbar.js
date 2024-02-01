@@ -1,4 +1,5 @@
 import React from "react";
+import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
@@ -31,7 +32,11 @@ const Navbar = () => {
 							</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" to={"/add-students"}>
+							<Link
+								className="nav-link text-success fw-bold"
+								to={"/add-students"}
+							>
+								<FaPlus className="text-secondary"/>
 								Add New Student
 							</Link>
 						</li>
